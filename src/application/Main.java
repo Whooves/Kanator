@@ -20,7 +20,7 @@ public class Main extends Application {
 			loader.setLocation(Main.class.getResource("/gui/mainGUI.fxml"));
 			AnchorPane root = loader.load();
 			Scene scene = new Scene(root);
-			primaryStage.setTitle("Kanator - \u304B\u306a\u30c8\u30eb v.1.0");
+			primaryStage.setTitle("Kanator - \u304B\u306a\u30c8\u30eb v.1.0.1");
 			primaryStage.setScene(scene);
 			primaryStage.setResizable(false);
 			primaryStage.show();
