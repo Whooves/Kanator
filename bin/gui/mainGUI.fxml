@@ -9,9 +9,24 @@
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.GameController">
    <children>
+      <MenuBar layoutY="2.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+        <menus>
+          <Menu mnemonicParsing="false" text="Settings">
+            <items>
+                  <MenuItem fx:id="pointsReqLabel" mnemonicParsing="false" text="Unspecified Action">
+                     <graphic>
+                        <Slider fx:id="pointReqSlider" />
+                     </graphic>
+                  </MenuItem>
+                  <CheckMenuItem fx:id="katakanaCheck" mnemonicParsing="false" text="Katakana" />
+                  <CheckMenuItem fx:id="hiraganaCheck" mnemonicParsing="false" selected="true" text="Hiragana" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
       <Button fx:id="okButton" layoutX="163.0" layoutY="362.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="66.0" text="OK" />
       <ProgressBar fx:id="progressBar" layoutX="244.0" layoutY="365.0" prefHeight="18.0" prefWidth="343.0" progress="0.0" AnchorPane.leftAnchor="244.0" AnchorPane.rightAnchor="13.0" />
-      <Pane layoutX="14.0" layoutY="14.0" prefHeight="338.0" prefWidth="442.0" AnchorPane.bottomAnchor="48.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="144.0" AnchorPane.topAnchor="14.0">
+      <Pane layoutX="14.0" layoutY="29.0" prefHeight="323.0" prefWidth="442.0" AnchorPane.bottomAnchor="48.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="144.0" AnchorPane.topAnchor="29.0">
          <children>
             <ToggleButton fx:id="toggleButton1" layoutX="14.0" layoutY="40.0" mnemonicParsing="false" prefHeight="115.0" prefWidth="115.0" text="ToggleButton" />
             <ToggleButton fx:id="toggleButton3" layoutX="313.0" layoutY="40.0" mnemonicParsing="false" prefHeight="115.0" prefWidth="115.0" text="ToggleButton" />
@@ -22,7 +37,7 @@
       </Pane>
       <TextField fx:id="textField" layoutX="14.0" layoutY="362.0" prefHeight="25.0" prefWidth="136.0" AnchorPane.leftAnchor="14.0" />
       <Button fx:id="restartButton" layoutX="471.0" layoutY="266.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="118.0" text="Restart" />
-      <TextArea fx:id="textArea" layoutX="469.0" layoutY="14.0" prefHeight="238.0" prefWidth="118.0" />
+      <TextArea fx:id="textArea" layoutX="469.0" layoutY="54.0" prefHeight="198.0" prefWidth="118.0" />
       <Button fx:id="shuffleButton" layoutX="471.0" layoutY="297.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="118.0" text="Shuffle" />
       <Button fx:id="hintButton" layoutX="471.0" layoutY="327.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="118.0" text="Hint" />
    </children>

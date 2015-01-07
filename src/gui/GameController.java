@@ -6,10 +6,15 @@ import java.util.LinkedHashSet;
 import data.Card;
 import data.Director;
 import data.Game;
+import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckMenuItem;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.ProgressBar;
+import javafx.scene.control.Slider;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
@@ -24,7 +29,18 @@ public class GameController {
 	private LinkedHashSet<ToggleButton> toggleSet = new LinkedHashSet<ToggleButton>();
 	private LinkedHashMap<ToggleButton, Card> toggleToCardMap = new LinkedHashMap<ToggleButton, Card>();
 	private float points = 0f;
-	private final int MAX_POINTS = 25;
+	private boolean kata = false;
+	private boolean hira = true;
+	private int MAX_POINTS = 74;
+	
+	@FXML
+	public Slider pointReqSlider;
+	@FXML
+	public CheckMenuItem katakanaCheck;
+	@FXML
+	public CheckMenuItem hiraganaCheck;
+	@FXML
+	public MenuItem pointsReqLabel;
 	
 	@FXML
 	public Button okButton;
@@ -78,6 +94,40 @@ public class GameController {
 			});
 		}
 		
+		pointReqSlider.setOnMouseDragged(new EventHandler<Event>() {
+
+			@Override
+			public void handle(Event event) {
+				pointsReqLabel.setText((int)pointReqSlider.getValue() + " Points");
+				
+			}
+		});
+		
+		pointReqSlider.setOnMouseReleased(new EventHandler<Event>() {
+
+			@Override
+			public void handle(Event event) {
+				MAX_POINTS = (int)pointReqSlider.getValue();
+				refreshGUI();
+			}
+		});
+		
+		katakanaCheck.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				kata = katakanaCheck.isSelected();
+				restart();
+			}
+		});
+		
+		hiraganaCheck.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				hira = hiraganaCheck.isSelected();
+				restart();
+			}
+		});
+		
 		okButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
@@ -122,19 +172,34 @@ public class GameController {
 	
 	public void restart(){
 		game = new Game();
+		setCards();
 		game.init();
+		points = 0;
+		mapCards();
+		
+		MAX_POINTS = game.getCards().size();
+		pointReqSlider.setDisable(false);
+		pointReqSlider.setMax(game.getCards().size());
+		pointReqSlider.setMin(1);
+		pointReqSlider.setValue(MAX_POINTS);
+		pointsReqLabel.setText(MAX_POINTS + " Points");
 		textArea.clear();
-		textField.clear();
+		textField.clear();		
+		progressBar.setProgress(0);
 		okButton.setDisable(true);
 		for(ToggleButton tb : toggleSet){
 			tb.setDisable(false);
 		}
 		textArea.setFocusTraversable(false);;
 		textArea.setEditable(false);
-		mapCards();
 		refreshGUI();
 	}
 	
+	private void setCards() {
+		game.hira = hira;
+		game.kata = kata;
+	}
+
 	private void mapCards() {
 		int counter = 0;
 		for(ToggleButton tb : toggleSet){
@@ -161,6 +226,9 @@ public class GameController {
 			}
 			counter++;
 		}
+		if(points < 0){
+			points = 0;
+		}
 		progressBar.setProgress(points/MAX_POINTS);
 	}
 	
@@ -172,7 +240,7 @@ public class GameController {
 				textArea.appendText(c.getRomanji() + "\n");
 			}
 		}
-		if(points > 0){
+		if(points > 0.0){
 			points -= 0.5;
 		}
 		refreshGUI();
@@ -189,11 +257,12 @@ public class GameController {
 		
 		selTB.setSelected(false);
 		okButton.setDisable(true);
-		if(selTB != null && textField.getText().equals(toggleToCardMap.get(selTB).getRomanji())){
+		if(selTB != null && textField.getText().toLowerCase().equals(toggleToCardMap.get(selTB).getRomanji())){
 			points++;
 			game.getCards().remove(toggleToCardMap.get(selTB));
+			pointReqSlider.setMin(pointReqSlider.getMin()+1);
 		} else {
-			if(points > 0){
+			if(points > 0.0){
 				points--;
 			}
 		}
@@ -210,12 +279,14 @@ public class GameController {
 		for(ToggleButton tb : toggleSet){
 			tb.setDisable(true);
 		}
+		pointReqSlider.setDisable(true);
 		toggleButton1.setText("W");
 		toggleButton2.setText("I");
 		toggleButton3.setText("N");
 		toggleButton4.setText("\u272a");
 		toggleButton5.setText("\u272a");
 		okButton.setDisable(true);
+		progressBar.setProgress(-1);
 	}
 	
 	public void setGame(Game game){

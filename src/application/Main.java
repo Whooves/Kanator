@@ -22,6 +22,7 @@ public class Main extends Application {
 			Scene scene = new Scene(root);
 			primaryStage.setTitle("Kanator - \u304B\u306a\u30c8\u30eb v.1.0");
 			primaryStage.setScene(scene);
+			primaryStage.setResizable(false);
 			primaryStage.show();
 		} catch(Exception e) {
 			e.printStackTrace();
