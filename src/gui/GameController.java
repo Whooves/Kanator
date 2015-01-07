@@ -13,6 +13,8 @@ import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Font;
 
@@ -106,6 +108,15 @@ public class GameController {
 			}
 		});
 		
+		textField.getParent().setOnKeyPressed(new EventHandler<KeyEvent>() {
+			@Override
+			public void handle(KeyEvent event) {
+				if(!okButton.isDisable() && event.getCode() == KeyCode.ENTER){
+					check();
+					event.consume();
+				}
+			}
+		});
 		restart();
 	}
 	
@@ -118,6 +129,8 @@ public class GameController {
 		for(ToggleButton tb : toggleSet){
 			tb.setDisable(false);
 		}
+		textArea.setFocusTraversable(false);;
+		textArea.setEditable(false);
 		mapCards();
 		refreshGUI();
 	}
